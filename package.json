@@ -1,0 +1,34 @@
+{
+  "name": "hcm-lite-backend",
+  "version": "1.0.0",
+  "description": "HCM Lite Backend - AI-assisted Human Capital Management System for Saylani Hackathon 2026",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": ["hcm", "saylani", "hackathon", "express", "mongoose", "ai"],
+  "author": "HCM Lite Team",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "geolib": "^3.3.4",
+    "helmet": "^8.0.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.10.0",
+    "pdfkit": "^0.16.0",
+    "socket.io": "^4.8.1"
+  }
+}
