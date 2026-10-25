@@ -12,7 +12,7 @@ const { sendWelcomeEmail } = require('../utils/email.util');
 const { getCurrentDateString } = require('../utils/date.util');
 
 const generateStrongTempPassword = () => {
-  return `Hcm@${crypto.randomBytes(4).toString('hex')}1!`;
+  return 'Hr@12345';
 };
 
 // ==================== COMPANY SETTINGS ====================
@@ -436,7 +436,10 @@ const createHrUser = async ({ name, email, password, tempPassword, temporaryPass
     throw error;
   }
 
-  const resolvedTempPass = password || tempPassword || temporaryPassword || generateStrongTempPassword();
+  const resolvedTempPass = (typeof password === 'string' && password.trim()) ||
+    (typeof tempPassword === 'string' && tempPassword.trim()) ||
+    (typeof temporaryPassword === 'string' && temporaryPassword.trim()) ||
+    generateStrongTempPassword();
   const salt = await bcrypt.genSalt(10);
   const passwordHash = await bcrypt.hash(resolvedTempPass, salt);
 
@@ -564,7 +567,7 @@ const resetUserPassword = async (userId, newTempPassword, req = null) => {
     throw error;
   }
 
-  const tempPass = newTempPassword || generateStrongTempPassword();
+  const tempPass = (typeof newTempPassword === 'string' && newTempPassword.trim()) || generateStrongTempPassword();
   const salt = await bcrypt.genSalt(10);
   user.passwordHash = await bcrypt.hash(tempPass, salt);
   user.mustChangePassword = true;

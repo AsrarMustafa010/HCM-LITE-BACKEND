@@ -13,7 +13,7 @@ const { logAudit } = require('../utils/audit.util');
 const { sendWelcomeEmail } = require('../utils/email.util');
 
 const generateStrongTempPassword = () => {
-  return `Emp@${crypto.randomBytes(4).toString('hex')}1!`;
+  return 'Welcome@123';
 };
 
 // Register an employee (HR only)
@@ -41,7 +41,10 @@ const registerEmployee = async (data, req = null) => {
     avatarUrl = ''
   } = data;
 
-  const tempPasswordToUse = temporaryPassword || tempPassword || password || generateStrongTempPassword();
+  const tempPasswordToUse = (typeof password === 'string' && password.trim()) ||
+    (typeof temporaryPassword === 'string' && temporaryPassword.trim()) ||
+    (typeof tempPassword === 'string' && tempPassword.trim()) ||
+    generateStrongTempPassword();
   const resolvedDepartmentId = departmentId || department;
   const resolvedDesignationId = (designationId || (designation && /^[0-9a-fA-F]{24}$/.test(String(designation)) ? designation : null));
 
