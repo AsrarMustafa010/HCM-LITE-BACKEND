@@ -9,18 +9,11 @@ const { notFound, errorHandler } = require('./middlewares/error.middleware');
 
 const app = express();
 
-const rawFrontendUrl = process.env.FRONTEND_URL || '';
-const configuredOrigins = rawFrontendUrl
+const rawFrontendUrl = process.env.FRONTEND_URL || 'https://hcm-lite-frontend-two.vercel.app';
+const allowedOrigins = rawFrontendUrl
   .split(',')
   .map((u) => u.trim().replace(/\/+$/, ''))
   .filter(Boolean);
-
-const allowedOrigins = [
-  ...configuredOrigins,
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://127.0.0.1:3000',
-];
 
 // Security and utility middlewares
 app.use(helmet({ contentSecurityPolicy: false })); // allow inline css for /api/docs
@@ -30,7 +23,7 @@ app.use(cors({
     if (!origin) return callback(null, true);
 
     const cleanOrigin = origin.replace(/\/+$/, '');
-    if (allowedOrigins.includes(cleanOrigin) || cleanOrigin.endsWith('.vercel.app')) {
+    if (allowedOrigins.includes(cleanOrigin)) {
       return callback(null, true);
     }
 
@@ -40,6 +33,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+app.options('*', cors());
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
